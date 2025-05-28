@@ -1,0 +1,266 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl:  <http://www.w3.org/2002/07/owl#>.
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#>.
+
+{
+  ?p rdfs:domain ?c.
+  ?x ?p ?y.
+} => {
+  ?x a ?c.
+}.
+
+{
+  ?p rdfs:range ?c.
+  ?x ?p ?y.
+} => {
+  ?y a ?c.
+}.
+
+{
+  ?p a owl:FunctionalProperty.
+  ?x ?p ?y1.
+  ?x ?p ?y2.
+} => {
+  ?y1 owl:sameAs ?y2.
+}.
+
+{
+  ?p a owl:InverseFunctionalProperty.
+  ?x1 ?p ?y.
+  ?x2 ?p ?y.
+} => {
+  ?x1 owl:sameAs ?x2.
+}.
+
+{
+  ?p a owl:IrreflexiveProperty.
+  ?x ?p ?x.
+} => {
+  false.
+}.
+
+{
+  ?p a owl:SymmetricProperty.
+  ?x ?p ?y.
+} => {
+  ?y ?p ?x.
+}.
+
+{
+  ?p a owl:AsymmetricProperty.
+  ?x ?p ?y.
+  ?y ?p ?x.
+} => {
+  false.
+}.
+
+{
+  ?p a owl:TransitiveProperty.
+  ?x ?p ?y.
+  ?y ?p ?z.
+} => {
+  ?x ?p ?z.
+}.
+
+{
+  ?p1 rdfs:subPropertyOf ?p2.
+  ?x ?p1 ?y.
+} => {
+  ?x ?p2 ?y.
+}.
+
+{
+  ?x ?p1 ?y.
+  ?p2 owl:propertyChainAxiom ?n.
+  ?n rdf:first ?p1.
+  ?n rdf:rest ?n2.
+  ?n2 rdf:first ?p2.
+  ?y ?p2 ?z.
+} => {
+  ?x ?p2 ?z.
+}.
+
+{
+  ?p1 owl:equivalentProperty ?p2.
+  ?x ?p1 ?y.
+} => {
+  ?x ?p2 ?y.
+}.
+
+{
+  ?p1 owl:equivalentProperty ?p2.
+  ?x ?p2 ?y.
+} => {
+  ?x ?p1 ?y.
+}.
+
+{
+  ?p1 owl:propertyDisjointWith ?p2.
+  ?x ?p1 ?y.
+  ?x ?p2 ?y.
+} => {
+  false.
+}.
+
+{
+  ?p1 owl:inverseOf ?p2.
+  ?x ?p1 ?y.
+} => {
+  ?y ?p2 ?x.
+}.
+
+{
+  ?p1 owl:inverseOf ?p2.
+  ?x ?p2 ?y.
+} => {
+  ?y ?p1 ?x.
+}.
+
+{
+  ?x owl:sourceIndividual ?i1.
+  ?x owl:assertionProperty ?p.
+  ?x owl:targetIndividual ?i2.
+  ?i1 ?p ?i2.
+} => {
+  false.
+}.
+
+{
+  ?x owl:sourceIndividual ?i.
+  ?x owl:assertionProperty ?p.
+  ?x owl:targetValue ?lt.
+  ?i ?p ?lt.
+} => {
+  false.
+}.
+
+{
+  ?x a owl:Nothing.
+} => {
+  false.
+}.
+
+{
+  ?c1 owl:complementOf ?c2.
+  ?x a ?c1.
+  ?x a ?c2.
+} => {
+  false.
+}.
+
+{
+  ?x owl:someValuesFrom ?y.
+  ?x owl:onProperty ?p.
+  ?u ?p ?v.
+  ?v a ?y.
+} => {
+  ?u a ?x.
+}.
+
+{
+  ?x owl:someValuesFrom owl:Thing.
+  ?x owl:onProperty ?p.
+  ?u ?p ?v.
+} => {
+  ?u a ?x.
+}.
+
+{
+  ?x owl:allValuesFrom ?y.
+  ?x owl:onProperty ?p.
+  ?u a ?x.
+  ?u ?p ?v.
+} => {
+  ?v a ?y.
+}.
+
+{
+  ?x owl:hasValue ?y.
+  ?x owl:onProperty ?p.
+  ?u a ?x.
+} => {
+  ?u ?p ?y.
+}.
+
+{
+  ?x owl:hasValue ?y.
+  ?x owl:onProperty ?p.
+  ?u ?p ?y.
+} => {
+  ?u a ?x.
+}.
+
+{
+  ?x owl:maxCardinality "0"^^xsd:nonNegativeInteger.
+  ?x owl:onProperty ?p.
+  ?u a ?x.
+  ?u ?p ?y.
+} => {
+  false.
+}.
+
+{
+  ?x owl:maxCardinality "1"^^xsd:nonNegativeInteger.
+  ?x owl:onProperty ?p.
+  ?u a ?x.
+  ?u ?p ?y1.
+  ?u ?p ?y2.
+} => {
+  ?y1 owl:sameAs ?y2.
+}.
+
+{
+  ?x owl:maxQualifiedCardinality "0"^^xsd:nonNegativeInteger.
+  ?x owl:onProperty ?p.
+  ?x owl:onClass ?c.
+  ?u a ?x.
+  ?u ?p ?y.
+  ?y a ?c.
+} => {
+  false.
+}.
+
+{
+  ?x owl:maxQualifiedCardinality "0"^^xsd:nonNegativeInteger.
+  ?x owl:onProperty ?p.
+  ?x owl:onClass owl:Thing.
+  ?u a ?x.
+  ?u ?p ?y.
+} => {
+  false.
+}.
+
+{
+  ?x owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger.
+  ?x owl:onProperty ?p.
+  ?x owl:onClass ?c.
+  ?u a ?x.
+  ?u ?p ?y1.
+  ?y1 a ?c.
+  ?u ?p ?y2.
+  ?y2 a ?c.
+} => {
+  ?y1 owl:sameAs ?y2.
+}.
+
+{
+  ?x owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger.
+  ?x owl:onProperty ?p.
+  ?x owl:onClass owl:Thing.
+  ?u a ?x.
+  ?u ?p ?y1.
+  ?u ?p ?y2.
+} => {
+  ?y1 owl:sameAs ?y2.
+}.
+
+## OWL2RL rules stop here - these are fudged for demo purposes
+
+{ ?a owl:sameAs ?b . } => { ?b owl:sameAs ?a . } .
+
+{ ?a owl:sameAs ?b . ?a ?p ?o . } => { ?b ?p ?o . } .
+
+{ ?a owl:sameAs ?b . ?s ?a ?o . } => { ?s ?b ?o . } .
+
+{ ?a owl:sameAs ?b . ?s ?p ?a . } => { ?s ?p ?b . } .

@@ -1,0 +1,10 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix schema: <http://schema.org/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#>.
+
+foaf:Person owl:sameAs schema:Person .
+foaf:knows owl:sameAs schema:knows .
+
+# From FOAF ontology definition
+
+foaf:knows a owl:SymmetricProperty .

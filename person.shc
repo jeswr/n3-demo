@@ -1,0 +1,4 @@
+shape <PersonShape> {
+  foaf:knows IRI .
+  foaf:age xsd:integer .
+}
